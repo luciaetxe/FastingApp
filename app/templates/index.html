@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-        <h1>FastBloom</h1>
-        <p>Start small, build steady. Consistency: {{ consistency }} days. </p>
-        <form method="POST">
-            <label>Pick your fasting window:</label><br>
-            <select name="fasting_window">
-                <option value="12">12 hours</option>
-                <option value="14">14 hours</option>
-                <option value="16">16 hours</option>
-            </select><br>
-            <button type="submit" class="btn">Start Fast</button>
-        </form>
-        <a href="{{ url_for('main.history') }}" class="btn">View Fast History</a>
+    <h1>Start Your Fast</h1>
+    <p class="subtitle">Start small, build steady.<br>You've been consistent for <strong>{{ consistency }}</strong> days.</p>
+
+    <form method="POST" class="form-window">
+        <label for="fasting_window">Pick your fasting window:</label>
+        <select name="fasting_window" id="fasting_window" required>
+            <option value="12">12 hours — Gentle Start</option>
+            <option value="14">14 hours — Balanced Flow</option>
+            <option value="16">16 hours — Power Cleanse</option>
+        </select>
+        <button type="submit" class="btn-primary">Start Fast</button>
+    </form>
+
+    <a href="{{ url_for('main.history') }}" class="btn-secondary">View Fast History</a>
 {% endblock %}

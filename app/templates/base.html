@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>FastBloom - {% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
-        <nav>
-            {% if "user_id" in session %}
-                <a href="{{ url_for('main.logout') }}" class="btn">Logout</a>
-            {% endif %}
-        </nav>
-        <div class="content">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="flash-messages">
-                        {% for category, message in messages %}
-                            <p class="flash-{{ category }}">{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-            {% block content %}{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>BareFast - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-title">
+            <h1>BareFast</h1>
+            <p class="tagline">a wild reset</p>
         </div>
-        <p class="science-tip">Science bit: Consistency is key—keep your fasting steady!</p>
-    </body>
+        {% if "user_id" in session %}
+            <nav>
+                <a href="{{ url_for('main.logout') }}" class="btn-nav">Logout</a>
+            </nav>
+        {% endif %}
+    </header>
+
+    <main class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <p class="flash-{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
 </html>

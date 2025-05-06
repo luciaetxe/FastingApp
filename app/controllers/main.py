@@ -174,19 +174,15 @@ def complete():
     user = User.query.get(user_id)
     return redirect(url_for("main.index"))
     
-@main_bp.route("/history")
+@main_bp.route("/history", methods=["GET", "POST"])
 @login_required
 def history():
     user_id = session["user_id"]
-    past_fasts = FastHistory.query.filter_by(user_id=user_id).all()
-    return render_template("history.html", past_fasts=past_fasts)
+    edit_id = request.args.get("edit", type=int)
 
-@main_bp.route("/history/edit/<int:index>", methods=["GET", "POST"])
-@login_required
-def edit_fast(index):
-    user_id = session["user_id"]
-    fast = FastHistory.query.filter_by(user_id=user_id, id=index).first_or_404()
     if request.method == "POST":
+        fast_id = request.form.get("fast_id", type=int)
+        fast = FastHistory.query.filter_by(user_id=user_id, id=fast_id).first_or_404()
         new_date = request.form.get("date")
         new_duration = request.form.get("duration_hours", type=int)
         new_planned = request.form.get("hours_planned", type=int)
@@ -196,11 +192,13 @@ def edit_fast(index):
             fast.duration_hours = new_duration
             fast.hours_planned = new_planned
             db.session.commit()
-            return redirect(url_for("main.history"))
         except ValueError:
             flash("Invalid date format. Use YYYY-MM-DD HH:MM.", "error")
-            return render_template("edit_fast.html", fast=fast, index=index)
-    return render_template("edit_fast.html", fast=fast, index=index)
+
+        return redirect(url_for("main.history"))
+
+    past_fasts = FastHistory.query.filter_by(user_id=user_id).all()
+    return render_template("history.html", past_fasts=past_fasts, edit_id=edit_id)
 
 @main_bp.route("/history/delete/<int:index>")
 @login_required
