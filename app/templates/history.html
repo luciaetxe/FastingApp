@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Fast History{% endblock %}
+{% block content %}
+        <h1>Fast History</h1>
+        <p> Track your journey - small steps, big wins.</p>
+        <div class="history-list">
+            {% for fast in past_fasts %}
+                <div class="fast-card">
+                    <p>Date: {{ fast.date | datetime }}</p>
+                    <p>Duration: {{ fast.duration_hours }}h (Planned: {{ fast.hours_planned }}h)</p>
+                    <a href="{{ url_for('main.edit_fast', index=fast.id) }}" class="btn">Edit</a>
+                    <a href="{{ url_for('main.delete_fast', index=fast.id) }}" class="btn" onclick="return confirm('Are you sure you want to delete this fast?')">Delete</a>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('main.index') }}" class="btn">Back to Home</a>
+{% endblock %}

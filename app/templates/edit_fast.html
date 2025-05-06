@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Edit Fast Entry{% endblock %}
+{% block content %}
+        <h1>Edit Fast Entry</h1>
+        <p>Adjust your fast details.</p>
+        <form method="POST">
+            <label>Date (YYYY-MM-DD HH:MM): </label><br>
+            <input type="text" name="date" value="{{ fast.date }}" required><br>
+            <label>Actual Duration (hours): </label><br>
+            <input type="number" name="duration_hours" value="{{ fast.duration_hours }}" min="0" required><br>
+            <label>Planned Duration (hours):</label><br>
+            <input type="number" name="hours_planned" value="{{ fast.hours_planned }}" min="0" required><br>
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+        <a href="{{ url_for('main.history') }}" class="btn">Cancel</a>
+{% endblock %}
